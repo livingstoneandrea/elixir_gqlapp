@@ -21,9 +21,12 @@ defmodule ElixirGqlappWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ElixirGqlappWeb do
-  #   pipe_through :api
-  # end
+  scope "/api" do
+    pipe_through :api
+
+    get "/graphql", Absinthe.Plug.GraphiQL, schema: ElixirGqlappWeb.Api.Schema, interface: :playground
+    post "/graphql", Absinthe.Plug, schema: ElixirGqlappWeb.Api.Schema
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:elixir_gqlapp, :dev_routes) do
